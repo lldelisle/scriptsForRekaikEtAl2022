@@ -12,11 +12,6 @@ multiBigwigSummary BED-file -b ${pathWithChIP}/*_H3K27ac_reptc_Normalized.bigwig
     -o Fig1D.npz --BED ${pathWithGitHub}/annotations/HoxDdiv10.bed \
     --outRawCounts Fig1D.txt
 
-# Figure 2B
-multiBigwigSummary BED-file -b ${pathWithChIP}/*_PolII_Normalized.bigwig \
-    -o Fig2B.npz --BED ${pathWithGitHub}/annotations/HoxDdiv10.bed \
-    --outRawCounts Fig2B.txt
-
 # Figure S1
 cat ${pathWithGitHub}/annotations/TADs.bed \
     ${pathWithGitHub}/annotations/subTADs.bed \
@@ -26,6 +21,11 @@ cat ${pathWithGitHub}/annotations/TADs.bed \
 multiBigwigSummary BED-file -b ${pathWithChIP}/*_H3K27ac_reptc_Normalized.bigwig \
     -o FigS1.npz --BED regions_S1.bed \
     --outRawCounts FigS1.txt
+
+# Figure S2B
+multiBigwigSummary BED-file -b ${pathWithChIP}/*_PolII_Normalized.bigwig \
+    -o FigS2B.npz --BED ${pathWithGitHub}/annotations/HoxDdiv10.bed \
+    --outRawCounts FigS2B.txt
 
 # Figure S4A (do not use the rep2)
 cp ${pathWithGitHub}/annotations/RAD21_HoxD_intCBS_regions.bed regions_S4A.bed

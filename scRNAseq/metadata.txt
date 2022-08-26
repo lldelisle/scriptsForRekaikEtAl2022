@@ -1,7 +1,0 @@
-Sample.name	Time	Day	replicate	Batch	Dissection	Genotype	Chip.10x.type
-wt_96h_Whole_scRNAseq_rep1	96h	4 days	1	1	Whole	129sv.WT	V3
-wt_96h_Whole_scRNAseq_rep2	96h	4 days	2	4	Whole	129sv.WT	V3.1
-wt_120h_Whole_scRNAseq_rep1	120h	5 days	1	1	Whole	129sv.WT	V3
-wt_120h_Anterior_scRNAseq_rep1	120h	5 days	1	2	Anterior	129sv.WT	V3
-wt_120h_Posterior_scRNAseq_rep1	120h	5 days	1	2	Posterior	129sv.WT	V3
-wt_120h_Whole_scRNAseq_rep2	120h	5 days	2	4	Whole	129sv.WT	V3.1

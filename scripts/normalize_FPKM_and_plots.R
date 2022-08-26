@@ -47,9 +47,9 @@ write.table(cast(all.FPKM.values, gene_id + gene_short_name ~ sample, value = "F
 system(paste("gzip -f", file.path(directory.with.data, paste0("all_FPKM.txt"))))
 
 
-# Figure 1E and S3:
-# Get FPKM values for heatmap and barplot:
-all.genes.needed <- c(paste0("Hoxd", 1:13), paste0("Cdx", 1:2))
+# Figure 1E:
+# Get FPKM values for heatmap:
+all.genes.needed <- paste0("Hoxd", 1:13)
 all.FPKM.files <- grep("reptc", list.files(path = directory.with.FPKM, pattern = "FPKM.txt.gz", recursive = T, full.names = T),
                        value = T)
 all.FPKM.values <- do.call(rbind, lapply(all.FPKM.files, function(fn){
@@ -88,7 +88,7 @@ write.table(cast(summary.df, time ~ gene_short_name, value = "mean_value"),
             file.path(directory.with.data, paste0("Fig1E_raw_data.txt")),
             sep = "\t", quote = F, row.names = F)
 
-# Figure 2Cb:
+# Figure S2Cb:
 ratios <- data.frame(what = "FPKM", time = c("96h", "120h"),
                      ratio = c(summary.df$mean_value[summary.df$time == "96h" & summary.df$gene_short_name == "d9"] / 
                                  summary.df$mean_value[summary.df$time == "96h" & summary.df$gene_short_name == "d4"],
@@ -106,31 +106,9 @@ ggplot(ratios, aes(x = time, y = ratio)) +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         strip.background = element_rect(fill = NA, colour = NA))
-ggsave(file.path(directory.with.plots, paste0("Fig2Cb.pdf")), height = 3, width = 2)
+ggsave(file.path(directory.with.plots, paste0("FigS2Cb.pdf")), height = 3, width = 2)
 
-
-# Plot the barplot (FigS3A)
-input.data <- subset(merge(all.FPKM.values, samplesplan), grepl("Cdx", gene_short_name))
-input.data$time <- factor(input.data$time, levels = paste0(seq(72, 168, 12), "h"))
-ggplot(input.data, aes(time, FPKM, fill = gene_short_name))  + 
-  stat_summary(fun.data = simple.fun, aes(group = gene_short_name), 
-               geom = "errorbar", color = "black", width =0.3,
-               position = position_dodge(.55)) +
-  stat_summary(fun = mean, geom = "bar", color = "black",
-               width = 0.6, position = position_dodge2(padding = 0.3)) +
-  theme_classic() +
-  xlab("Time (h) AA") +
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 500)) +
-  scale_fill_manual("", values = c("#f7931d",  "#38431b"))
-ggsave(file.path(directory.with.plots, paste0("FigS3A.pdf")), height = 5, width = 5)
-# Export data:
-write.table(cast(input.data, time + sample ~ gene_short_name, value = "FPKM"),
-            file.path(directory.with.data, paste0("FigS3A_raw_data.txt")),
-            sep = "\t", quote = F, row.names = F)
-
-
-
-# Figure 10C
+# Figure 7C
 # Get FPKM values for heatmap Del(CBS1-5):
 all.genes.needed <- paste0("Hoxd", 1:13)
 all.FPKM.files <- list.files(path = directory.with.FPKM, pattern = "Del\\(CBS1-5\\).*FPKM.txt.gz", recursive = T, full.names = T)
@@ -163,10 +141,10 @@ ggplot(summary.df, aes(gene_short_name, time, fill = mean_value)) +
         axis.text.x = element_text(face = "italic")) +
   ggtitle("Del(CBS1-5)")
 
-ggsave(file.path(directory.with.plots, "Fig10C.pdf"), height = 2, width = 4)
+ggsave(file.path(directory.with.plots, "Fig7C.pdf"), height = 2, width = 4)
 # Export data:
 write.table(cast(summary.df, time ~ gene_short_name, value = "mean_value"),
-            file.path(directory.with.data, paste0("Fig10C_raw_data.txt")),
+            file.path(directory.with.data, paste0("Fig7C_raw_data.txt")),
             sep = "\t", quote = F, row.names = F)
 
 
@@ -256,14 +234,14 @@ to.plot.1$gene <- gsub("Hox", "", gsub("_ratio", "", to.plot.1$gene))
 to.plot.1$gene <- factor(to.plot.1$gene, levels = c("d9", "d8", "d4", "d3", "d1", "a9", "a5", "a1"))
 to.plot.1$time <- factor(to.plot.1$time, levels = c("96h", "120h", "144h"))
 
-figures <- list("Fig7C" = list(geno = "Del(CBS1)",
+figures <- list("Fig5B" = list(geno = "Del(CBS1)",
                                scales = list(scale_y_continuous(breaks = c(0, 1, 2, 4),
                                                                 limits = c(0, 4),
                                                                 expand = c(0, 0)),
                                              scale_y_continuous(breaks = c(0, 1, 2),
                                                                 limits = c(0, 2),
                                                                 expand = c(0, 0)))),
-                "Fig8B" = list(geno = "Del(CBS1-2)",
+                "Fig5D" = list(geno = "Del(CBS1-2)",
                                scales = list(scale_y_continuous(breaks = c(2, 4, 6, 8),
                                                                 limits = c(2, 8),
                                                                 expand = c(0, 0)),
@@ -273,28 +251,28 @@ figures <- list("Fig7C" = list(geno = "Del(CBS1)",
                                              scale_y_continuous(breaks = c(0, 1, 2),
                                                                 limits = c(0, 2),
                                                                 expand = c(0, 0)))),
-                "Fig8D" = list(geno = "Del(CBS2)",
+                "Fig5F" = list(geno = "Del(CBS2)",
                                scales = list(scale_y_continuous(breaks = c(0, 1, 2, 4),
                                                                 limits = c(0, 4),
                                                                 expand = c(0, 0)),
                                              scale_y_continuous(breaks = c(0, 1, 2),
                                                                 limits = c(0, 2),
                                                                 expand = c(0, 0)))),
-                "Fig8F" = list(geno = "Ins(2xCBS-d4d8)",
+                "Fig5H" = list(geno = "Ins(2xCBS-d4d8)",
                                scales = list(scale_y_continuous(breaks = c(0, 1, 2),
                                                                 limits = c(0, 2),
                                                                 expand = c(0, 0)),
                                              scale_y_continuous(breaks = c(0, 1, 2),
                                                                 limits = c(0, 2),
                                                                 expand = c(0, 0)))),
-                "Fig9B" = list(geno = "Del(d1-d4)",
+                "Fig6B" = list(geno = "Del(d1-d4)",
                                scales = list(scale_y_continuous(breaks = c(0, 1, 2),
                                                                 limits = c(0, 2),
                                                                 expand = c(0, 0)),
                                              scale_y_continuous(breaks = c(0, 1, 2),
                                                                 limits = c(0, 2),
                                                                 expand = c(0, 0)))),
-                "Fig9E" = list(geno = "Del(sub-TAD1)",
+                "Fig6E" = list(geno = "Del(sub-TAD1)",
                                scales = list(scale_y_continuous(breaks = c(0, 1, 2),
                                                                 limits = c(0, 2),
                                                                 expand = c(0, 0)),
@@ -311,7 +289,7 @@ for (fig.name in names(figures)) {
     df.stats <- subset(df.stats, genotype == "Del(sub-TAD1)" |
                          rep %in% c("rep3", "rep4"))
   }
-  if (fig.name == "Fig8B") {
+  if (fig.name == "Fig5D") {
     df.stats$time <- as.character(df.stats$time)
     temp.df <- subset(df.stats, time == "96h")
     df.stats$time[df.stats$time == "96h"] <- "high 96h"
@@ -375,7 +353,7 @@ for (fig.name in names(figures)) {
     df.stats <- subset(df.stats, genotype == "Del(sub-TAD1)" |
                          rep %in% c("rep3", "rep4"))
   }
-  if (fig.name == "Fig8B") {
+  if (fig.name == "Fig5D") {
     df.stats$time <- as.character(df.stats$time)
     temp.df <- subset(df.stats, time == "96h")
     df.stats$time[df.stats$time == "96h"] <- "high 96h"
@@ -435,7 +413,7 @@ to.plot.2$time <- factor(to.plot.2$time, levels = c("96h", "120h", "144h"))
 to.plot.2$ratio_wt[to.plot.2$time != "144h" & to.plot.2$gene == "d13"] <- NA
 to.plot.2$ratio_wt[to.plot.2$time == "96h" & to.plot.2$gene %in% c("d10", "d11")] <- NA
 
-figures <- list("Fig10B" = list(geno = "Del(CBS1-5)",
+figures <- list("Fig7B" = list(geno = "Del(CBS1-5)",
                                 scales = list(scale_y_continuous(breaks = c(0, 1, 2, 4, 6),
                                                                  limits = c(0, 6),
                                                                  expand = c(0, 0)),
@@ -454,7 +432,7 @@ figures <- list("Fig10B" = list(geno = "Del(CBS1-5)",
 
 for (fig.name in names(figures)) {
   df.stats <- subset(to.plot.2, genotype %in% c("wt", figures[[fig.name]][["geno"]]) & is.finite(ratio_wt))
-  if (fig.name == "Fig10B") {
+  if (fig.name == "Fig7B") {
     df.stats$time <- as.character(df.stats$time)
     temp.df <- subset(df.stats, time != "96h")
     df.stats$time[df.stats$time != "96h"] <- paste("high", df.stats$time[df.stats$time != "96h"])
@@ -517,7 +495,7 @@ to.plot.2.noratio$ratio_wt[to.plot.2.noratio$time == "96h" & to.plot.2.noratio$g
 
 for (fig.name in names(figures)) {
   df.stats <- subset(to.plot.2.noratio, genotype %in% c("wt", figures[[fig.name]][["geno"]]) & is.finite(ratio_wt))
-  if (fig.name == "Fig10B") {
+  if (fig.name == "Fig7B") {
     df.stats$time <- as.character(df.stats$time)
     temp.df <- subset(df.stats, time != "96h")
     df.stats$time[df.stats$time != "96h"] <- paste("high", df.stats$time[df.stats$time != "96h"])
@@ -576,7 +554,7 @@ to.plot.3$time <- factor(to.plot.3$time, levels = c("96h", "120h", "144h"))
 # Manual filtering:
 to.plot.3$ratio_wt[to.plot.3$time == "120h" & to.plot.3$gene %in% c("d10", "d11")] <- NA
 
-figures <- list("FigS8B" = list(geno = "Del(CBS4)",
+figures <- list("FigS10B" = list(geno = "Del(CBS4)",
                                scales = list(scale_y_continuous(breaks = c(0, 1, 2),
                                                                 limits = c(0, 2),
                                                                 expand = c(0, 0)),

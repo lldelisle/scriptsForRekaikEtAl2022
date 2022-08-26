@@ -1,7 +1,4 @@
 sample name	normalisation group	reference
-wt_72h_CDX2	1	X
-wt_96h_CDX2	1	
-wt_120h_CDX2	1	
 Del(CBS1-2)_96h_CTCF		
 Del(CBS1-5)_96h_CTCF		
 Del(CBS1)_96h_CTCF		

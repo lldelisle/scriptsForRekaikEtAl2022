@@ -21,8 +21,8 @@ if (!dir.exists(directory.with.plots)) {
 }
 
 figures.type <- list('Fig1D' = 'coo',
-                     'Fig2B' = 'coo',
                      'FigS1' = 'time',
+                     'FigS2B' = 'coo',
                      'FigS4A' = 'coo',
                      'FigS4B' = 'time',
                      'FigS5B' = 'time')
@@ -185,7 +185,7 @@ for (fig in names(figures.type)) {
     }
   }
 }
-# Plot the ratios in Fig2C left
+# Plot the ratios in FigS2C left
 ratios$time <- factor(ratios$time, levels = c("96h", "120h"))
 ggplot(ratios, aes(x = time, y = ratio)) +
   geom_line(aes(group = protein)) +
@@ -198,4 +198,4 @@ ggplot(ratios, aes(x = time, y = ratio)) +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         strip.background = element_rect(fill = NA, colour = NA))
-ggsave(file.path(directory.with.plots, paste0("Fig2Ca.pdf")), height = 3, width = 3)
+ggsave(file.path(directory.with.plots, paste0("FigS2Ca.pdf")), height = 3, width = 3)

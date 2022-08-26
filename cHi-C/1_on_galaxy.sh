@@ -29,9 +29,14 @@ cutadapt -j ${GALAXY_SLOTS:-1} -a 'TruSeqR1'='AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
 python /data/galaxy/galaxy/var/shed_tools/testtoolshed.g2.bx.psu.edu/repos/lldelisle/from_hicup_to_juicebox/552eb7782435/from_hicup_to_juicebox/fromHicupToJuicebox.py --fragmentFile digest_file.txt --colForChr 1 --colForStart 2 --colForEnd 3 --colForID 4 --lineToSkipInFragmentFile 2 --methodForFrag hicup --useMid --output validPairs.txt hicup.bam
  bash /data/galaxy/galaxy/var/shed_tools/testtoolshed.g2.bx.psu.edu/repos/lldelisle/from_hicup_to_juicebox/552eb7782435/from_hicup_to_juicebox/switchAndSort.sh validPairs.txt 'sample_validPairs file with midFrag positions.tabular'
 
+
+# Filtering with c10>=30 and c11>=30 with filtering tool from galaxy on validPairs_sorted.txt
+
 # Filter1
 # command_version:
 python '/data/galaxy/galaxy/server/tools/stats/filtering.py' 'sample_validPairs file with midFrag positions.tabular' 'both pairs above MAPQ30 of sample_validPairs file with midFrag positions.tabular' '/data/galaxy/galaxy/jobs/082/82279/configs/tmp5nfsi_r8' 11 "str,int,str,int,int,int,str,int,int,int,int" 0
+
+# Filtering with (c3=='chr2' and c4<77000000 and c4>72402000) and (c7=="chr2" and c8<77000000 and c8>72402000) with filtering tool from galaxy on the previous output.txt
 
 # Filter1
 # command_version:
