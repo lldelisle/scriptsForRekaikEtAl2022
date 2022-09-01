@@ -28,8 +28,8 @@ while read l; do
                 zcat ${pathWithCHiC}/${sample}_validPairs_${geno}.txt.gz > ${sample}.validPair
             fi
         fi
-        coo=$(cat $pathWithVP | awk -v vp=$vp '$4==vp{print $1":"($2+$3)/2}')
-        vpReg=$(cat $pathWithVP | awk -v vp=$vp '$4==vp{print ($3-$2)/1000}')
+        coo=$(cat $pathWithVP | awk -v vp=$vp '$4==vp{printf("%s:%d",$1,($2+$3)/2)}')
+        vpReg=$(cat $pathWithVP | awk -v vp=$vp '$4==vp{print ($3-$2)/2000}')
         python fromFragFileAndValidPairsToVirtualCaptureC.py \
             --validPair ${sample}.validPair \
             --colChr1 3 --colChr2 7 --colFrag1 5 --colFrag2 9 --lineToSkipInValidPair 0 \
