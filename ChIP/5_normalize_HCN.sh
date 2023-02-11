@@ -2,7 +2,7 @@
 
 # For H3K27ac and H3K27me3,
 # in order to reduce the impact of variations in gastruloid growth speed, 
-# the profile of mutant and corresponding wild-type (Figure S9 and S12)
+# the profile of mutant and corresponding wild-type (Figure S11 and S15)
 # were corrected using the time-course experiment 
 # and the profile on HoxA, HoxB and HoxC clusters as a guide.
 

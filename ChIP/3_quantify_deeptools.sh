@@ -5,6 +5,7 @@
 pathWithChIP="/scratch/ldelisle/GEO_Hocine/toGEO/ChIP/"
 pathWithGitHub="/home/ldelisle/softwares/scriptsForRekaikEtAl2022/"
 
+mkdir -p /scratch/ldelisle/GEO_Hocine/quantifs/
 cd /scratch/ldelisle/GEO_Hocine/quantifs/
 
 # Figure 1D
@@ -27,9 +28,9 @@ multiBigwigSummary BED-file -b ${pathWithChIP}/*_PolII_Normalized.bigwig \
     -o FigS2B.npz --BED ${pathWithGitHub}/annotations/HoxDdiv10.bed \
     --outRawCounts FigS2B.txt
 
-# Figure S4A (do not use the rep2)
+# Figure S4A (only use rep1)
 cp ${pathWithGitHub}/annotations/RAD21_HoxD_intCBS_regions.bed regions_S4A.bed
-multiBigwigSummary BED-file -b ${pathWithChIP}/wt_*_RAD21_Normalized.bigwig \
+multiBigwigSummary BED-file -b $(ls ${pathWithChIP}/wt_*_RAD21_rep1_Normalized.bigwig | grep -v wt_48h_) \
     -o FigS4A.npz --BED regions_S4A.bed \
     --outRawCounts FigS4A.txt
 
@@ -46,8 +47,14 @@ multiBigwigSummary BED-file -b ${pathWithChIP}/wt_*_RAD21*_Normalized.bigwig \
     -o FigS5B.npz --BED regions_S5B.bed \
     --outRawCounts FigS5B.txt
 
+# Figure S11C
+multiBigwigSummary BED-file -b ${pathWithChIP}/*96h_RAD21*_Normalized.bigwig \
+    -o FigS11C.npz --BED regions_S4B.bed \
+    --outRawCounts FigS11C.txt
+
 mkdir -p ${pathWithGitHub}/ChIP/quantifs/
 cp Fig*.txt ${pathWithGitHub}/ChIP/quantifs/
+cp regions*.bed ${pathWithGitHub}/ChIP/quantifs/
 
 # Plots
 Rscript ${pathWithGitHub}/scripts/plot_ChIP_quantif.R $PWD/ ${pathWithGitHub}/ChIP/plots/

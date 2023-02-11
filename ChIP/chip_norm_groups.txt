@@ -18,48 +18,64 @@ wt_144h_H3K27ac_reptc	2
 wt_168h_H3K27ac_reptc	2	
 Del(CBS1)_96h_H3K27ac_rep1	3	
 Del(CBS1)_96h_H3K27ac_rep2	3	
+Del(CBS1-2)_96h_H3K27ac_rep1	3	
+Del(CBS1-2)_96h_H3K27ac_rep2	3	
 wt_96h_H3K27ac_rep1	3	X
 wt_96h_H3K27ac_rep2	3	
-Del(CBS1)_120h_H3K27ac_rep1	4	
-Del(CBS1)_120h_H3K27ac_rep2	4	
-wt_120h_H3K27ac_rep1	4	X
-wt_120h_H3K27ac_rep2	4	
-wt_72h_H3K27me3_reptc	5	X
-wt_96h_H3K27me3_reptc	5	
-wt_120h_H3K27me3_reptc	5	
-wt_144h_H3K27me3_reptc	5	
-Del(CBS1-5)_96h_H3K27me3_rep1	6	
-Del(CBS1-5)_96h_H3K27me3_rep2	6	
-wt_96h_H3K27me3_rep1	6	X
-wt_96h_H3K27me3_rep2	6	
-wt_72h_NIPBL	7	X
-wt_84h_NIPBL	7	
-wt_96h_NIPBL	7	
-wt_108h_NIPBL	7	
-wt_120h_NIPBL	7	
-wt_132h_NIPBL	7	
-wt_144h_NIPBL	7	
-wt_168h_NIPBL	7	
-wt_72h_PolII	8	X
-wt_84h_PolII	8	
-wt_96h_PolII	8	
-wt_108h_PolII	8	
-wt_120h_PolII	8	
-wt_132h_PolII	8	
-wt_144h_PolII	8	
-wt_168h_PolII	8	
-wt_72h_pSer2PolII	9	X
-wt_84h_pSer2PolII	9	
-wt_96h_pSer2PolII	9	
-wt_120h_pSer2PolII	9	
-wt_144h_pSer2PolII	9	
+Del(CBS1)_120h_H3K27ac_rep1	3	
+Del(CBS1)_120h_H3K27ac_rep2	3	
+Del(CBS1-2)_120h_H3K27ac_rep1	3	
+Del(CBS1-2)_120h_H3K27ac_rep2	3	
+wt_120h_H3K27ac_rep1	3
+wt_120h_H3K27ac_rep2	3	
+wt_72h_H3K27me3_reptc	4	X
+wt_96h_H3K27me3_reptc	4	
+wt_120h_H3K27me3_reptc	4	
+wt_144h_H3K27me3_reptc	4	
+Del(CBS1-5)_96h_H3K27me3_rep1	5	
+Del(CBS1-5)_96h_H3K27me3_rep2	5	
+wt_96h_H3K27me3_rep1	5	X
+wt_96h_H3K27me3_rep2	5	
+wt_72h_NIPBL	6	X
+wt_84h_NIPBL	6	
+wt_96h_NIPBL	6	
+wt_108h_NIPBL	6	
+wt_120h_NIPBL	6	
+wt_132h_NIPBL	6	
+wt_144h_NIPBL	6	
+wt_168h_NIPBL	6	
+wt_72h_PolII	7	X
+wt_84h_PolII	7	
+wt_96h_PolII	7	
+wt_108h_PolII	7	
+wt_120h_PolII	7	
+wt_132h_PolII	7	
+wt_144h_PolII	7	
+wt_168h_PolII	7	
+wt_72h_pSer2PolII	8	X
+wt_84h_pSer2PolII	8	
+wt_96h_pSer2PolII	8	
+wt_120h_pSer2PolII	8	
+wt_144h_pSer2PolII	8	
 Del(CBS1-5)_120h_RAD21		
-wt_72h_RAD21	10	X
-wt_84h_RAD21	10	
-wt_96h_RAD21	10	
-wt_108h_RAD21	10	
-wt_132h_RAD21	10	
-wt_144h_RAD21	10	
-wt_168h_RAD21	10	
-wt_96h_RAD21_rep2	10
-wt_144h_RAD21_rep2	10	
+wt_72h_RAD21_rep1	9	X
+wt_84h_RAD21_rep1	9	
+wt_96h_RAD21_rep1	9	
+wt_108h_RAD21_rep1	9	
+wt_132h_RAD21_rep1	9	
+wt_144h_RAD21_rep1	9	
+wt_168h_RAD21_rep1	9	
+wt_96h_RAD21_rep2	9
+wt_144h_RAD21_rep2	9	
+wt_48h_RAD21_rep1	9	
+wt_72h_RAD21_rep2	9	
+wt_84h_RAD21_rep2	9	
+wt_96h_RAD21_rep3	9	
+wt_108h_RAD21_rep2	9	
+wt_132h_RAD21_rep2	9	
+wt_144h_RAD21_rep3	9	
+Del(CBS1)_96h_RAD21_rep1	9	
+Del(CBS1)_96h_RAD21_rep2	9	
+wt_72h_CDX2	10	X
+wt_96h_CDX2	10	
+wt_120h_CDX2	10	

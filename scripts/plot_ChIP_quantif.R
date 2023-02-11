@@ -79,9 +79,9 @@ for (fig in names(figures.type)) {
   input.data <- merge(input.data, all.times)
   
   if (fig == "FigS5B") {
-    # Normalize to 72h
+    # Normalize to 48h
     input.data <- ddply(input.data, .(chr, start, region), mutate,
-                        new.value = value / value[time == "72h"])
+                        new.value = value / value[time == "48h"])
     input.data$original.value <- input.data$value
     input.data$value <- input.data$new.value
   }
@@ -166,13 +166,21 @@ for (fig in names(figures.type)) {
     # Then the lines
     for (i in names(figures.group[[fig]][["points"]])) {
       my.regions <- figures.group[[fig]][["points"]][[i]]
-      working.df <- subset(input.data, region %in% my.regions & time != "48h")
+      working.df <- subset(input.data, region %in% my.regions)
+      if (fig == "FigS1") {
+        working.df <- subset(working.df, time != "48h")
+      }
       working.df$region <- factor(working.df$region, levels = my.regions)
       title <- paste("Coverage of", protein)
       if (fig == "FigS5B"){
-        title <- paste(title, "Normalized to 72h")
+        title <- paste(title, "Normalized to 48h")
       }
-      ggplot(working.df, aes(x = time.num, y = value, color = region, shape = region)) +
+      if (length(unique(working.df$region)) <= 6) {
+        g <- ggplot(working.df, aes(x = time.num, y = value, color = region, shape = region))
+      } else {
+        g <- ggplot(working.df, aes(x = time.num, y = value, color = region))
+      }
+       g +
         geom_point() +
         stat_summary(fun = mean, aes(group = region), 
                      geom = "line") +
@@ -185,6 +193,7 @@ for (fig in names(figures.type)) {
     }
   }
 }
+
 # Plot the ratios in FigS2C left
 ratios$time <- factor(ratios$time, levels = c("96h", "120h"))
 ggplot(ratios, aes(x = time, y = ratio)) +
@@ -199,3 +208,46 @@ ggplot(ratios, aes(x = time, y = ratio)) +
         panel.grid.minor = element_blank(),
         strip.background = element_rect(fill = NA, colour = NA))
 ggsave(file.path(directory.with.plots, paste0("FigS2Ca.pdf")), height = 3, width = 3)
+
+# Plot the barplot of FigS11C
+fig <- "FigS11C"
+df <- read.delim(file.path(directory.with.quantifs, paste0(fig, ".txt")))
+# I process the colnames of the data frame:
+colnames(df) <- gsub("^X\\.", "", colnames(df))
+colnames(df) <- gsub("^\\.", "", colnames(df))
+colnames(df) <- gsub("\\.$", "", colnames(df))
+colnames(df) <- gsub("_Normalized.bigwig$", "", colnames(df))
+region.df <- read.delim(file.path(directory.with.quantifs, paste0('regions_S4B.bed')), header = F)[, 1:4]
+colnames(region.df) <- c("chr", "start", "end", "region")
+region.df$region <- factor(region.df$region, levels = region.df$region)
+df <- merge(df, region.df)
+all.values <- melt(df, id.vars = c("chr", "start", "end", "region"), variable_name = "sample")
+all.values$genotype <- "Del(CBS1)"
+all.values$genotype[grepl("^wt", all.values$sample)] <- "wt"
+all.values$genotype <- factor(all.values$genotype, levels = c("wt", "Del(CBS1)"))
+all.values <- ddply(all.values, .(region), mutate,
+                    ref = mean(value[genotype == "wt"]))
+all.values$norm.value <- all.values$value / all.values$ref
+all.values$region <- factor(all.values$region, levels = rev(unique(all.values$region)))
+
+# Function to plot error bars
+simple.fun <- function(v){return(list(ymin = mean(v) - sd(v),
+                                      ymax = mean(v) + sd(v)))}
+ggplot(all.values, aes(x = genotype, y = norm.value)) +
+  stat_summary(aes(fill = genotype), geom = "bar", fun = mean,
+               color = "black", width = 0.6, linewidth = 0.1) +
+  stat_summary(fun.data = simple.fun, aes(group = genotype), 
+               geom = "errorbar", color = "black", width = 0.3,
+               position = position_dodge(.55), linewidth = 0.1) +
+  geom_dotplot(binaxis = "y", stackdir = "center", 
+               fill = NA, binwidth = 0.1, color = "grey") +
+  facet_grid(. ~ region, switch = "both") +
+  ylab("RAD21 accumulation on CBS at 96h vs wt") +
+  xlab("") +
+  theme_classic() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  scale_fill_manual(values = c('Del(CBS1)' = "#97226c", 'wt' = "#d167a8")) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 4))
+ggsave(file.path(directory.with.plots, paste0(fig, ".pdf")), height = 4, width = 6)
+  

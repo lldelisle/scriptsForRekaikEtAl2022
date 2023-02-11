@@ -32,40 +32,43 @@ if (!dir.exists(directory.with.data)) {
 simple.fun <- function(v){return(list(ymin = mean(v) - sd(v),
                                       ymax = mean(v) + sd(v)))}
 
-# Generate table with all FPKMs:
-all.FPKM.files <- list.files(path = directory.with.FPKM, pattern = "FPKM.txt.gz", recursive = T, full.names = T)
-all.FPKM.values <- do.call(rbind, lapply(all.FPKM.files, function(fn){
-  temp.df <- read.delim(fn)
-  temp.df <- subset(temp.df, select = c("gene_id", "gene_short_name", "FPKM"))
-  temp.df$sample <- gsub("_FPKM.txt.gz", "", basename(fn))
-  return(temp.df)
-}))
-# Write all FPKMs in table (summing for identical gene_ids)
-write.table(cast(all.FPKM.values, gene_id + gene_short_name ~ sample, value = "FPKM", fun.aggregate = sum),
-            file.path(directory.with.data, paste0("all_FPKM.txt")),
-            sep = "\t", quote = F, row.names = F)
-system(paste("gzip -f", file.path(directory.with.data, paste0("all_FPKM.txt"))))
+# Generate or read table with all FPKMs:
+if (!file.exists(file.path(directory.with.data, "all_FPKM.txt.gz"))) {
+  all.FPKM.files <- list.files(path = directory.with.FPKM, pattern = "FPKM.txt.gz", recursive = T, full.names = T)
+  all.FPKM.values <- do.call(rbind, lapply(all.FPKM.files, function(fn){
+    temp.df <- read.delim(fn)
+    temp.df <- subset(temp.df, select = c("gene_id", "gene_short_name", "FPKM"))
+    temp.df$sample <- gsub("_FPKM.txt.gz", "", basename(fn))
+    return(temp.df)
+  }))
+  # Write all FPKMs in table (summing for identical gene_ids)
+  write.table(cast(all.FPKM.values, gene_id + gene_short_name ~ sample, value = "FPKM", fun.aggregate = sum),
+              file.path(directory.with.data, paste0("all_FPKM.txt")),
+              sep = "\t", quote = F, row.names = F)
+  system(paste("gzip -f", file.path(directory.with.data, paste0("all_FPKM.txt"))))
+} else {
+  all.FPKM.table <- read.delim(file.path(directory.with.data, "all_FPKM.txt.gz"))
+  first.line <- readLines(file.path(directory.with.data, "all_FPKM.txt.gz"), n = 1)
+  colnames(all.FPKM.table) <- strsplit(first.line, "\t")[[1]]
+  all.FPKM.values <- melt(all.FPKM.table, id.vars = c("gene_id", "gene_short_name"),
+       variable_name = "sample")
+  colnames(all.FPKM.values)[ncol(all.FPKM.values)] <- "FPKM"
+  all.FPKM.values$sample <- as.character(all.FPKM.values$sample)
+}
 
 
 # Figure 1E:
 # Get FPKM values for heatmap:
 all.genes.needed <- paste0("Hoxd", 1:13)
-all.FPKM.files <- grep("reptc", list.files(path = directory.with.FPKM, pattern = "FPKM.txt.gz", recursive = T, full.names = T),
-                       value = T)
-all.FPKM.values <- do.call(rbind, lapply(all.FPKM.files, function(fn){
-  temp.df <- read.delim(fn)
-  temp.df <- subset(temp.df, subset = gene_short_name %in% all.genes.needed,
-                    select = c("gene_short_name", "FPKM"))
-  temp.df$sample <- gsub("_FPKM.txt.gz", "", basename(fn))
-  return(temp.df)
-}))
+
+FPKM.values <- subset(all.FPKM.values, grepl("reptc", sample) & gene_short_name %in% all.genes.needed)
 
 # Extract the samplesplan from names
 samplesplan <- data.frame(sample = unique(all.FPKM.values$sample))
 samplesplan$time <- sapply(strsplit(samplesplan$sample, "_"), "[[", 2)
 
 # Plot the heatmap (Fig1E):
-summary.df <- ddply(subset(merge(all.FPKM.values, samplesplan), grepl("Hoxd", gene_short_name)), .(gene_short_name, time), summarize,
+summary.df <- ddply(subset(merge(FPKM.values, samplesplan), grepl("Hoxd", gene_short_name)), .(gene_short_name, time), summarize,
                     mean_value = mean(FPKM))
 summary.df$time <- factor(summary.df$time, levels = paste0(seq(168, 72, -12), "h"))
 summary.df$gene_short_name <- factor(gsub("Hox", "", summary.df$gene_short_name),
@@ -111,20 +114,10 @@ ggsave(file.path(directory.with.plots, paste0("FigS2Cb.pdf")), height = 3, width
 # Figure 7C
 # Get FPKM values for heatmap Del(CBS1-5):
 all.genes.needed <- paste0("Hoxd", 1:13)
-all.FPKM.files <- list.files(path = directory.with.FPKM, pattern = "Del\\(CBS1-5\\).*FPKM.txt.gz", recursive = T, full.names = T)
-all.FPKM.values <- do.call(rbind, lapply(all.FPKM.files, function(fn){
-  temp.df <- read.delim(fn)
-  temp.df <- subset(temp.df, subset = gene_short_name %in% all.genes.needed,
-                    select = c("gene_short_name", "FPKM"))
-  temp.df$sample <- gsub("_FPKM.txt.gz", "", basename(fn))
-  return(temp.df)
-}))
-
-samplesplan <- data.frame(sample = unique(all.FPKM.values$sample))
-samplesplan$time <- sapply(strsplit(samplesplan$sample, "_"), "[[", 2)
+FPKM.values <- subset(all.FPKM.values, grepl("Del\\(CBS1-5\\)", sample) & gene_short_name %in% all.genes.needed)
 
 # Plot the heatmap:
-summary.df <- ddply(merge(all.FPKM.values, samplesplan), .(gene_short_name, time), summarize,
+summary.df <- ddply(merge(FPKM.values, samplesplan), .(gene_short_name, time), summarize,
                     mean_value = mean(FPKM))
 summary.df$time <- factor(summary.df$time, levels = paste0(seq(168, 72, -12), "h"))
 summary.df$gene_short_name <- factor(gsub("Hox", "", summary.df$gene_short_name),
@@ -147,6 +140,34 @@ write.table(cast(summary.df, time ~ gene_short_name, value = "mean_value"),
             file.path(directory.with.data, paste0("Fig7C_raw_data.txt")),
             sep = "\t", quote = F, row.names = F)
 
+# Figure S10A:
+# Get FPKM values for heatmap:
+all.genes.needed <- paste0("Cdx", 1:2)
+
+FPKM.values <- subset(all.FPKM.values, grepl("reptc", sample) & gene_short_name %in% all.genes.needed)
+
+# Extract the samplesplan from names
+samplesplan <- data.frame(sample = unique(all.FPKM.values$sample))
+samplesplan$time <- sapply(strsplit(samplesplan$sample, "_"), "[[", 2)
+
+# Plot the barplot
+input.data <- merge(FPKM.values, samplesplan)
+input.data$time <- factor(input.data$time, levels = paste0(seq(72, 168, 12), "h"))
+ggplot(input.data, aes(time, FPKM, fill = gene_short_name))  + 
+  stat_summary(fun.data = simple.fun, aes(group = gene_short_name), 
+               geom = "errorbar", color = "black", width =0.3,
+               position = position_dodge(.55)) +
+  stat_summary(fun = mean, geom = "bar", color = "black",
+               width = 0.6, position = position_dodge2(padding = 0.3)) +
+  theme_classic() +
+  xlab("Time (h) AA") +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 500)) +
+  scale_fill_manual("", values = c("#f7931d",  "#38431b"))
+ggsave(file.path(directory.with.plots, paste0("FigS10A.pdf")), height = 5, width = 5)
+# Export data:
+write.table(cast(input.data, time + sample ~ gene_short_name, value = "FPKM"),
+            file.path(directory.with.data, paste0("FigS10A_raw_data.txt")),
+            sep = "\t", quote = F, row.names = F)
 
 # Normalization matrix
 # The FPKM of the gene used as name is
@@ -173,25 +194,17 @@ gene.shapes <- c('d13' = 8, 'd11' = 6, 'd10' = 5, "d9" = 16, "d8" = 15, "d4" = 1
 all.genes.needed <- c(paste0("Hox", names(normalization.matrix)),
                       paste0("Hox", unlist(normalization.matrix)),
                       "Hoxd13")
-# Get all FPKM files which requires normalization
-all.FPKM.files <- grep("reptc", list.files(path = directory.with.FPKM, pattern = "FPKM.txt.gz", recursive = T, full.names = T),
-                       invert = T, value = T)
 # Get the FPKM values for these genes
-all.FPKM.values <- do.call(rbind, lapply(all.FPKM.files, function(fn){
-  temp.df <- read.delim(fn)
-  temp.df <- subset(temp.df, subset = gene_short_name %in% all.genes.needed,
-                    select = c("gene_short_name", "FPKM"))
-  temp.df$sample <- gsub("_FPKM.txt.gz", "", basename(fn))
-  return(temp.df)
-}))
+FPKM.values <- subset(all.FPKM.values, !grepl("reptc", sample) & gene_short_name %in% all.genes.needed)
+
 # Process sample names to get info
-samplesplan <- data.frame(sample = unique(all.FPKM.values$sample))
+samplesplan <- data.frame(sample = unique(FPKM.values$sample))
 samplesplan$genotype <- sapply(strsplit(samplesplan$sample, "_"), "[[", 1)
 samplesplan$time <- sapply(strsplit(samplesplan$sample, "_"), "[[", 2)
 samplesplan$rep <- sapply(strsplit(samplesplan$sample, "_"), "[[", 4)
 
 # Switch to samples as row and genes as columns:
-all.FPKM.values.v1 <- cast(all.FPKM.values, sample ~ gene_short_name, value = "FPKM")
+all.FPKM.values.v1 <- cast(FPKM.values, sample ~ gene_short_name, value = "FPKM")
 # Compute the normalization and store it in 'gene_ratio'
 for (gene in names(normalization.matrix)) {
   if (length(normalization.matrix[[gene]]) == 1) {
@@ -554,7 +567,7 @@ to.plot.3$time <- factor(to.plot.3$time, levels = c("96h", "120h", "144h"))
 # Manual filtering:
 to.plot.3$ratio_wt[to.plot.3$time == "120h" & to.plot.3$gene %in% c("d10", "d11")] <- NA
 
-figures <- list("FigS10B" = list(geno = "Del(CBS4)",
+figures <- list("FigS12B" = list(geno = "Del(CBS4)",
                                scales = list(scale_y_continuous(breaks = c(0, 1, 2),
                                                                 limits = c(0, 2),
                                                                 expand = c(0, 0)),
