@@ -52,4 +52,4 @@ ggplot(quantifs.data, aes(x = genotype, y = value, color = genotype)) +
   theme_classic() +
   ylim(0, 1) +
   scale_color_manual(values = colors)
-ggsave(file.path(dir.plot, "FigS13.pdf"), height = 7, width = 4)
+ggsave(file.path(dir.plot, "SupFig4.pdf"), height = 7, width = 4)

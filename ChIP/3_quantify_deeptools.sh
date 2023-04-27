@@ -13,44 +13,44 @@ multiBigwigSummary BED-file -b ${pathWithChIP}/*_H3K27ac_reptc_Normalized.bigwig
     -o Fig1D.npz --BED ${pathWithGitHub}/annotations/HoxDdiv10.bed \
     --outRawCounts Fig1D.txt
 
-# Figure S1
+# Figure Extended Data 1
 cat ${pathWithGitHub}/annotations/TADs.bed \
     ${pathWithGitHub}/annotations/subTADs.bed \
     ${pathWithGitHub}/annotations/H3K27ac_HoxD_locations_TDOM.bed \
-    ${pathWithGitHub}/annotations/H3K27ac_HoxD_locations_CDOM.bed | cut -f1-4 > regions_S1.bed
+    ${pathWithGitHub}/annotations/H3K27ac_HoxD_locations_CDOM.bed | cut -f1-4 > regions_ExtD1.bed
 
 multiBigwigSummary BED-file -b ${pathWithChIP}/*_H3K27ac_reptc_Normalized.bigwig \
-    -o FigS1.npz --BED regions_S1.bed \
-    --outRawCounts FigS1.txt
+    -o ExtDFig1.npz --BED regions_ExtD1.bed \
+    --outRawCounts ExtDFig1.txt
 
-# Figure S2B
+# Supplementary Figure 1B
 multiBigwigSummary BED-file -b ${pathWithChIP}/*_PolII_Normalized.bigwig \
-    -o FigS2B.npz --BED ${pathWithGitHub}/annotations/HoxDdiv10.bed \
-    --outRawCounts FigS2B.txt
+    -o SupFig1B.npz --BED ${pathWithGitHub}/annotations/HoxDdiv10.bed \
+    --outRawCounts SupFig1B.txt
 
-# Figure S4A (only use rep1)
-cp ${pathWithGitHub}/annotations/RAD21_HoxD_intCBS_regions.bed regions_S4A.bed
+# Extended Data Figure 2A (only use rep1)
+cp ${pathWithGitHub}/annotations/RAD21_HoxD_intCBS_regions.bed regions_ExtD2A.bed
 multiBigwigSummary BED-file -b $(ls ${pathWithChIP}/wt_*_RAD21_rep1_Normalized.bigwig | grep -v wt_48h_) \
-    -o FigS4A.npz --BED regions_S4A.bed \
-    --outRawCounts FigS4A.txt
+    -o ExtDFig2A.npz --BED regions_ExtD2A.bed \
+    --outRawCounts ExtDFig2A.txt
 
-# Figure S4B
+# Extended Data Figure 2B
 cat ${pathWithGitHub}/annotations/RAD21_HoxD_CBS_regions.bed | grep -v [TC]D \
-    > regions_S4B.bed
+    > regions_ExtD2B.bed
 multiBigwigSummary BED-file -b ${pathWithChIP}/wt_*_RAD21*_Normalized.bigwig \
-    -o FigS4B.npz --BED regions_S4B.bed \
-    --outRawCounts FigS4B.txt
+    -o ExtDFig2B.npz --BED regions_ExtD2B.bed \
+    --outRawCounts ExtDFig2B.txt
 
-# Figure S5B
-grep [TC]D ${pathWithGitHub}/annotations/RAD21_HoxD_CBS_regions.bed > regions_S5B.bed
+# Extended Data Figure 3B
+grep [TC]D ${pathWithGitHub}/annotations/RAD21_HoxD_CBS_regions.bed > regions_ExtD3B.bed
 multiBigwigSummary BED-file -b ${pathWithChIP}/wt_*_RAD21*_Normalized.bigwig \
-    -o FigS5B.npz --BED regions_S5B.bed \
-    --outRawCounts FigS5B.txt
+    -o ExtDFig3B.npz --BED regions_ExtD3B.bed \
+    --outRawCounts ExtDFig3B.txt
 
-# Figure S11C
+# Extended Data Figure 8C
 multiBigwigSummary BED-file -b ${pathWithChIP}/*96h_RAD21*_Normalized.bigwig \
-    -o FigS11C.npz --BED regions_S4B.bed \
-    --outRawCounts FigS11C.txt
+    -o ExtDFig8C.npz --BED regions_ExtD2B.bed \
+    --outRawCounts ExtDFig8C.txt
 
 mkdir -p ${pathWithGitHub}/ChIP/quantifs/
 cp Fig*.txt ${pathWithGitHub}/ChIP/quantifs/

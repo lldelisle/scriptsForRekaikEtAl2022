@@ -821,149 +821,8 @@ fontsize = 16
 " > ${ini_file}
 pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf} --width 10
 
-# Figure 6C
-ini_file="Fig6C.ini"
-geno="Del(d1-d4)"
-time=96
-echo "[${geno}_${time}h_CHiC]
-file = ${pathWithCHiC}/${geno}_${time}h_CHiC_5kb_Balanced_${geno}.cool
-title = ${geno}_CHiC_5kb_Balanced
-depth = 500000
-show_masked_bins = false
-min_value = 0
-
-[HoxD-CS3840]
-file = ${pathWithGitHub}/annotations/HoxDvsCS3840_Del(d1-d4).bedpe
-file_type = links
-links_type = loops
-overlay_previous = share-y
-line_style = dotted
-color = white
-line_width = 1
-
-[annotations]
-file = ${geno}/${geno}_vSplit_TADs.bed
-height = 1
-display = collapsed
-color = bed_rgb
-border_color = bed_rgb
-labels = false
-
-[labels]
-file = ${geno}/${geno}_vSplit_TADs_label.bed
-overlay_previous = yes
-color = none
-border_color = none
-display = collapsed
-fontsize = 20
-
-
-[spacer]
-height = 0.05
-
-[annotations2]
-file = ${geno}/${geno}_vSplit_subTADs.bed
-height = 0.2
-display = collapsed
-border_color = white
-color = bed_rgb
-labels = false
-
-[genes]
-file = ${geno}/${geno}_vSplit_Hox_single_transcripts.gtf
-overlay_previous = yes
-title = genes 102 single transcripts shifted
-style = flybase
-prefered_name = gene_name
-display = collapsed
-labels = false
-
-[labels]
-file = ${geno}/${geno}_vSplit_subTADs_label.bed
-color = none
-border_color = none
-display = collapsed
-fontsize = 20
-height = 1.5
-
-[CS38-40]
-file = ${geno}/${geno}_vSplit_CS3840.bed
-overlay_previous = yes
-color = bed_rgb
-" > ${ini_file}
-
-# Check coo
-pgt --tracks ${ini_file} --region chr2:74,635,000-75,165,000 -o ${ini_file/.ini/.pdf} --width 20
-
-
-# Figure 6F
-ini_file="Fig6F.ini"
-geno="Del(sub-TAD1)"
-time=96
-echo "[${geno}_${time}h_CHiC]
-file = ${pathWithCHiC}/${geno}_${time}h_CHiC_5kb_Balanced_${geno}.cool
-title = ${geno}_CHiC_5kb_Balanced
-depth = 500000
-show_masked_bins = false
-min_value = 0
-
-[annotations]
-file = ${geno}/${geno}_vSplit_TADs.bed
-height = 1
-display = collapsed
-color = bed_rgb
-border_color = bed_rgb
-labels = false
-
-[labels]
-file = ${geno}/${geno}_vSplit_TADs_label.bed
-overlay_previous = yes
-color = none
-border_color = none
-display = collapsed
-fontsize = 20
-
-
-[spacer]
-height = 0.05
-
-[annotations2]
-file = ${geno}/${geno}_vSplit_subTADs.bed
-height = 0.2
-display = collapsed
-border_color = white
-color = bed_rgb
-labels = false
-
-[genes]
-file = ${geno}/${geno}_vSplit_Hox_single_transcripts.gtf
-overlay_previous = yes
-title = genes 102 single transcripts shifted
-style = flybase
-prefered_name = gene_name
-display = collapsed
-labels = false
-
-[labels]
-file = ${geno}/${geno}_vSplit_subTADs_label.bed
-color = none
-border_color = none
-display = collapsed
-fontsize = 20
-height = 1.5
-
-[CS38-40]
-file = ${geno}/${geno}_vSplit_CS3840.bed
-overlay_previous = yes
-color = bed_rgb
-" > ${ini_file}
-
-# Check coo
-pgt --tracks ${ini_file} --region chr2:74,635,000-75,165,000 -o ${ini_file/.ini/.pdf} --width 20
-
-
-# Figure 7A
-ini_file=Fig7A.ini
+# Figure 6A
+ini_file=Fig6A.ini
 echo "[CTCF]
 arrowhead_fraction = 0.006
 display = collapsed
@@ -1034,8 +893,8 @@ arrowhead_fraction = 0.017
 pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf} --width 10
 
 
-# Figure 7D
-ini_file="Fig7D.ini"
+# Figure 6D
+ini_file="Fig6D.ini"
 echo "" > ${ini_file}
 for time in {48..168..24}; do
     if [ -e ${pathWithCHiC}/Del\(CBS1-5\)_${time}h_CHiC_2kb_Balanced_mm10.cool ]; then
@@ -1086,190 +945,8 @@ fontsize = 16
 
 pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf}
 
-
-# Figure S2A
-ini_file="FigS2A.ini"
-echo "" > ${ini_file}
-for time in {72..168..12}; do
-    if [ -e ${pathWithChIP}/wt_${time}h_PolII_Normalized.bigwig ]; then
-        echo "[wt_${time}h_PolII]
-file = ${pathWithChIP}/wt_${time}h_PolII_Normalized.bigwig
-title = ${time}h_PolII
-height = 1.5
-color = #0394fc
-min_value = 0
-max_value = 200 
-number_of_bins = 2000
-nans_to_zeros = true
-summary_method = mean
-show_data_range = true
-file_type = bigwig
-" >> ${ini_file}
-    fi
-done
-
-echo "[spacer]
-
-[genes]
-file = ${pathWithGitHub}/annotations/Hox_single_transcripts.gtf
-height = 0.5
-title = genes 102 single transcripts
-fontsize = 10
-style = flybase
-prefered_name = gene_name
-display = collapsed
-labels = false
-arrowhead_fraction = 0.017
-
-[labels]
-file = Hox_left.bed
-color = none
-border_color = none
-fontstyle = oblique
-display = collapsed
-height = 1
-fontsize = 16
-" >> ${ini_file}
-
-pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf} --width 25
-
-# Figure S2D
-ini_file="FigS2D.ini"
-echo "" > ${ini_file}
-for time in {72..144..12}; do
-    if [ -e ${pathWithChIP}/wt_${time}h_pSer2PolII_Normalized.bigwig ]; then
-        echo "[wt_${time}h_pSer2PolII]
-file = ${pathWithChIP}/wt_${time}h_pSer2PolII_Normalized.bigwig
-title = ${time}h_pSer2PolII
-height = 1.5
-color = #1a6985
-min_value = 0
-max_value = 100 
-number_of_bins = 2000
-nans_to_zeros = true
-summary_method = mean
-show_data_range = true
-file_type = bigwig
-" >> ${ini_file}
-    fi
-done
-echo "[spacer]
-
-[genes]
-file = ${pathWithGitHub}/annotations/Hox_single_transcripts.gtf
-height = 0.5
-title = genes 102 single transcripts
-fontsize = 10
-style = flybase
-prefered_name = gene_name
-display = collapsed
-labels = false
-arrowhead_fraction = 0.017
-
-[labels]
-file = Hox_left.bed
-color = none
-border_color = none
-fontstyle = oblique
-display = collapsed
-height = 1
-fontsize = 16
-" >> ${ini_file}
-
-pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf} --width 25
-
-# Figure S3
-ini_file="FigS3.ini"
-echo "[x-axis]
-where = top
-" > ${ini_file}
-for time in {72..168..12}; do
-    if [ -e ${pathWithChIP}/wt_${time}h_PolII_Normalized.bigwig ]; then
-        echo "[wt_${time}h_PolII]
-file = ${pathWithChIP}/wt_${time}h_PolII_Normalized.bigwig
-title = ${time}h_PolII
-height = 1.5
-color = #0394fc
-min_value = 0
-max_value = 200 
-number_of_bins = 2000
-nans_to_zeros = true
-summary_method = mean
-show_data_range = true
-file_type = bigwig
-" >> ${ini_file}
-    fi
-done
-
-echo "[spacer]
-
-[genes]
-file = ${pathWithGitHub}/annotations/Hox_single_transcripts.gtf
-height = 0.5
-title = genes 102 single transcripts
-fontsize = 10
-style = flybase
-prefered_name = gene_name
-display = collapsed
-labels = false
-arrowhead_fraction = 0.017
-
-[labels]
-file = Hox_left.bed
-color = none
-border_color = none
-fontstyle = oblique
-display = collapsed
-height = 1
-fontsize = 16
-
-[spacer]
-height = 2
-" >> ${ini_file}
-for time in {72..144..12}; do
-    if [ -e ${pathWithChIP}/wt_${time}h_pSer2PolII_Normalized.bigwig ]; then
-        echo "[wt_${time}h_pSer2PolII]
-file = ${pathWithChIP}/wt_${time}h_pSer2PolII_Normalized.bigwig
-title = ${time}h_pSer2PolII
-height = 1.5
-color = #1a6985
-min_value = 0
-max_value = 100 
-number_of_bins = 2000
-nans_to_zeros = true
-summary_method = mean
-show_data_range = true
-file_type = bigwig
-" >> ${ini_file}
-    fi
-done
-echo "[spacer]
-
-[genes]
-file = ${pathWithGitHub}/annotations/Hox_single_transcripts.gtf
-height = 0.5
-title = genes 102 single transcripts
-fontsize = 10
-style = flybase
-prefered_name = gene_name
-display = collapsed
-labels = false
-arrowhead_fraction = 0.017
-
-[labels]
-file = Hox_left.bed
-color = none
-border_color = none
-fontstyle = oblique
-display = collapsed
-height = 1
-fontsize = 16
-" >> ${ini_file}
-
-pgt --tracks ${ini_file} --BED ${pathWithGitHub}/annotations/HoxAB_plot_regions.bed -o ${ini_file/.ini/.pdf} --width 25
-
-# Figure S4A top
-ini_file="FigS4Atop.ini"
+# Extended Data Figure 2A top
+ini_file="ExtDFig2Atop.ini"
 echo "[genes]
 file = ${pathWithGitHub}/annotations/Hox_single_transcripts.gtf
 height = 0.5
@@ -1308,8 +985,8 @@ pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/
 
 
 
-# Figure S5A
-ini_file="FigS5A.ini"
+# Extended Figure 3A
+ini_file="ExtDFig3A.ini"
 echo "[CTCF]
 file = ${pathWithGitHub}/annotations/RAD21_HoxD_CBS_regions.bed
 title = CTCF-binding sites
@@ -1387,11 +1064,11 @@ height = 1.5
 
 pgt --tracks ${ini_file} --region chr2:73,900,037-75,621,560 -o ${ini_file/.ini/.pdf}
 
-# Figure S6Atop
+# Extended Figure 4Atop
 cat ${pathWithGitHub}/annotations/v4C_vp.bed | grep CBS > vp_CBS.bed
 cat ${pathWithGitHub}/annotations/v4C_quantified.bed | grep -P "sub-TAD1$" > v4C_subTAD1.bed
 
-ini_file="FigS6Atop.ini"
+ini_file="ExtDFig4Atop.ini"
 echo "[wt_168h_CTCF]
 file = ${pathWithChIP}/wt_168h_CTCF.bigwig
 title = CTCF
@@ -1423,11 +1100,11 @@ labels = false
 " > ${ini_file}
 pgt --tracks ${ini_file} --region chr2:74,645,050-75,200,352 -o ${ini_file/.ini/.pdf}
 
-# Figure S6Btop
+# Extended Figure 4Btop
 cat ${pathWithGitHub}/annotations/v4C_vp.bed | grep CBS > vp_CBS.bed
 cat ${pathWithGitHub}/annotations/v4C_quantified.bed | grep "CBS" > v4C_CBSsubTAD1.bed
 
-ini_file="FigS6Btop.ini"
+ini_file="ExtDFig4Btop.ini"
 echo "[wt_168h_CTCF]
 file = ${pathWithChIP}/wt_168h_CTCF.bigwig
 title = CTCF
@@ -1459,11 +1136,11 @@ labels = false
 " > ${ini_file}
 pgt --tracks ${ini_file} --region chr2:74,645,050-75,200,352 -o ${ini_file/.ini/.pdf}
 
-# Figure S6Ctop
+# Extended Figure 4Ctop
 cat ${pathWithGitHub}/annotations/v4C_vp.bed | grep CBS > vp_CBS.bed
 cat ${pathWithGitHub}/annotations/v4C_quantified.bed | grep "CBS-CS38-40" > v4C_CBSCS3840.bed
 
-ini_file="FigS6Ctop.ini"
+ini_file="ExtDFig4Ctop.ini"
 echo "[wt_168h_CTCF]
 file = ${pathWithChIP}/wt_168h_CTCF.bigwig
 title = CTCF
@@ -1495,11 +1172,11 @@ labels = false
 " > ${ini_file}
 pgt --tracks ${ini_file} --region chr2:74,645,050-75,200,352 -o ${ini_file/.ini/.pdf}
 
-# Figure S6Dtop
+# Extended Figure 4Dtop
 cat ${pathWithGitHub}/annotations/v4C_vp.bed | grep "d1-d4" > vp_d1d4.bed
 cat ${pathWithGitHub}/annotations/v4C_quantified.bed | grep -P "sub-TAD1$" > v4C_subTAD1.bed
 
-ini_file="FigS6Dtop.ini"
+ini_file="ExtDFig4Dtop.ini"
 echo "[wt_168h_CTCF]
 file = ${pathWithChIP}/wt_168h_CTCF.bigwig
 title = CTCF
@@ -1531,11 +1208,11 @@ labels = false
 " > ${ini_file}
 pgt --tracks ${ini_file} --region chr2:74,645,050-75,200,352 -o ${ini_file/.ini/.pdf}
 
-# Figure S6Etop
+# Extended Figure 4Etop
 cat ${pathWithGitHub}/annotations/v4C_vp.bed | grep "d9" > vp_d9.bed
 cat ${pathWithGitHub}/annotations/v4C_quantified.bed | grep -P "sub-TAD1$" > v4C_subTAD1.bed
 
-ini_file="FigS6Etop.ini"
+ini_file="ExtDFig4Etop.ini"
 echo "[wt_168h_CTCF]
 file = ${pathWithChIP}/wt_168h_CTCF.bigwig
 title = CTCF
@@ -1568,8 +1245,8 @@ labels = false
 pgt --tracks ${ini_file} --region chr2:74,645,050-75,200,352 -o ${ini_file/.ini/.pdf}
 
 
-# Figure S7A
-ini_file="FigS7A.ini"
+# Extended Figure 5A
+ini_file="ExtDFig5A.ini"
 echo "" > ${ini_file}
 for time in {48..168..24}; do
     if [ -e ${pathWithCHiC}/wt_${time}h_CHiC_merge_2kb_Balanced_mm10.cool ]; then
@@ -1628,8 +1305,8 @@ fontsize = 16
 
 pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf}
 
-# Figure S7B
-ini_file="FigS7B.ini"
+# Extended Figure 5B
+ini_file="ExtDFig5B.ini"
 echo "[wt_168h_CTCF]
 file = ${pathWithChIP}/wt_168h_CTCF.bigwig
 title = CTCF
@@ -1688,8 +1365,8 @@ pgt --tracks ${ini_file} --region chr2:74,616,423-74,812,095 -o ${ini_file/.ini/
 # Get the first 2 CTCF:
 cat ${pathWithGitHub}/annotations/CTCF.bed | tail -n 2 > CBS12.bed
 
-# Figure S7C
-ini_file="FigS7C.ini"
+# Extended Figure 5C
+ini_file="ExtDFig5C.ini"
 echo "[wt_168h_CTCF]
 file = ${pathWithChIP}/wt_168h_CTCF.bigwig
 title = CTCF
@@ -1752,11 +1429,11 @@ type = vlines
 # Check coo
 pgt --tracks ${ini_file} --region chr2:74,616,423-74,812,095 -o ${ini_file/.ini/.pdf} --width 20
 
-# Figure S8top
+# Extended Figure 6top
 cat ${pathWithGitHub}/annotations/v4C_vp.bed | grep -v CBS | grep -v "d1-d4" > vp_genes.bed
 cat ${pathWithGitHub}/annotations/v4C_quantified.bed | grep "Evx2-Hoxd12" > v4C_Evx2d12.bed
 
-ini_file="FigS8top.ini"
+ini_file="ExtDFig6top.ini"
 echo "[wt_168h_CTCF]
 file = ${pathWithChIP}/wt_168h_CTCF.bigwig
 title = CTCF
@@ -1788,8 +1465,8 @@ labels = false
 " > ${ini_file}
 pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf}
 
-# Figure S9ABC
-ini_file="FigS9ABC.ini"
+# Extended Figure 7ABC
+ini_file="ExtDFig7ABC.ini"
 echo "[x-axis]
 where=top
 
@@ -1899,12 +1576,12 @@ gene rows = 10
 prefered_name = gene_name
 " >> ${ini_file}
 
-pyGenomeTracks --tracks ${ini_file} --region chr6:52147123-52277553 --outFileName FigS9A.pdf
-pyGenomeTracks --tracks ${ini_file} --region chr11:96183548-96376004 --outFileName FigS9B.pdf
-pyGenomeTracks --tracks ${ini_file} --region chr15:102,919,005-103,068,700 --outFileName FigS9C.pdf
+pyGenomeTracks --tracks ${ini_file} --region chr6:52147123-52277553 --outFileName ExtDFig7A.pdf
+pyGenomeTracks --tracks ${ini_file} --region chr11:96183548-96376004 --outFileName ExtDFig7B.pdf
+pyGenomeTracks --tracks ${ini_file} --region chr15:102,919,005-103,068,700 --outFileName ExtDFig7C.pdf
 
-# Figure S9D
-ini_file="FigS9D.ini"
+# Extended Figure 7D
+ini_file="ExtDFig7D.ini"
 echo "[x-axis]
 where = top
 
@@ -1957,62 +1634,16 @@ gene rows = 10
 prefered_name = gene_name
 " > ${ini_file}
 
-pyGenomeTracks --tracks ${ini_file} --region chr6:51,119,395-53,072,988 --outFileName FigS9D_HoxA.pdf
-pyGenomeTracks --tracks ${ini_file} --region chr11:95,634,641-97,036,681 --outFileName FigS9D_HoxB.pdf
-pyGenomeTracks --tracks ${ini_file} --region chr15:102,417,766-103,467,108 --outFileName FigS9D_HoxC.pdf
+pyGenomeTracks --tracks ${ini_file} --region chr6:51,119,395-53,072,988 --outFileName ExtDFig7D_HoxA.pdf
+pyGenomeTracks --tracks ${ini_file} --region chr11:95,634,641-97,036,681 --outFileName ExtDFig7D_HoxB.pdf
+pyGenomeTracks --tracks ${ini_file} --region chr15:102,417,766-103,467,108 --outFileName ExtDFig7D_HoxC.pdf
 
-# Figure S10F
-ini_file="FigS10F.ini"
-echo "" > ${ini_file}
-for time in {72..120..24}; do
-    if [ -e ${pathWithChIP}/wt_${time}h_CDX2_Normalized.bigwig ]; then
-        echo "[wt_${time}h_CDX2]
-file = ${pathWithChIP}/wt_${time}h_CDX2_Normalized.bigwig
-title = ${time}h_CDX2
-height = 3
-color = #3F4716
-min_value = 0
-max_value = 20
-number_of_bins = 2000
-nans_to_zeros = true
-summary_method = mean
-show_data_range = true
-file_type = bigwig
-" >> ${ini_file}
-    fi
-done
-
-echo "[spacer]
-
-[genes]
-file = ${pathWithGitHub}/annotations/Hox_single_transcripts.gtf
-height = 1
-title = genes 102 single transcripts
-fontsize = 10
-style = flybase
-prefered_name = gene_name
-display = collapsed
-labels = false
-arrowhead_fraction = 0.017
-
-[labels]
-file = Hox_left.bed
-color = none
-border_color = none
-fontstyle = oblique
-display = collapsed
-height = 1
-fontsize = 16
-" >> ${ini_file}
-
-pgt --tracks ${ini_file} --region chr2:74,667,374-74,767,842 -o ${ini_file/.ini/.pdf} --width 30
-
-# Figure S11ABCD
+# Extended Figure 8ABDE
 fignames=('AB' 'DE')
 mutants=('Del(CBS1)' 'Del(CBS1-2)')
 for i in "${!fignames[@]}"; do
     mutant=${mutants[$i]}
-    ini_file="FigS11${fignames[$i]}.ini"
+    ini_file="ExtDFig8${fignames[$i]}.ini"
     echo "[CTCF]
 arrowhead_fraction = 0.006
 display = collapsed
@@ -2126,8 +1757,11 @@ fontsize = 12
     pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf} --width 10
 done
 
-# Figure S12A
-ini_file="FigS12A.ini"
+# Extended Data Figure 8C
+#TODO
+
+# Extended Data Figure 9A
+ini_file="ExtDFig9A.ini"
 geno="Del(CBS4)"
 echo "[wt_168h_CTCF]
 file = ${pathWithChIP}/wt_168h_CTCF.bigwig
@@ -2177,81 +1811,8 @@ fontsize = 16
 " > ${ini_file}
 pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf} --width 15
 
-# Figure S14Atop
-cat ${pathWithGitHub}/annotations/v4C_vp.bed | grep CBS | grep -v "CBS[36]" > vp_CBS_pos.bed
-cat ${pathWithGitHub}/annotations/v4C_quantified.bed | grep "CBS-CS38-40" > v4C_CBSCS3840.bed
-
-ini_file="FigS14Atop.ini"
-echo "[wt_168h_CTCF]
-file = ${pathWithChIP}/wt_168h_CTCF.bigwig
-title = CTCF
-height = 2
-color = #fc8403
-min_value = 0
-max_value = 100
-number_of_bins = 2000
-nans_to_zeros = true
-summary_method = mean
-show_data_range = true
-file_type = bigwig
-
-[vp]
-file = vp_CBS_pos.bed
-height = 1
-color = blue
-display = collapsed
-border_color = none
-labels = false
-
-[quantifs]
-file = v4C_CBSCS3840.bed
-overlay_previous = yes
-display = collapsed
-color = orange
-border_color = none
-labels = false
-" > ${ini_file}
-pgt --tracks ${ini_file} --region chr2:74,645,050-75,200,352 -o ${ini_file/.ini/.pdf}
-
-# Figure S14Btop
-cat ${pathWithGitHub}/annotations/v4C_vp.bed | grep -v CBS | grep -v "d1-d4" > vp_genes.bed
-cat ${pathWithGitHub}/annotations/v4C_quantified.bed | grep "CBS-CS38-40" > v4C_CBSCS3840.bed
-
-ini_file="FigS14Btop.ini"
-echo "[wt_168h_CTCF]
-file = ${pathWithChIP}/wt_168h_CTCF.bigwig
-title = CTCF
-height = 2
-color = #fc8403
-min_value = 0
-max_value = 100
-number_of_bins = 2000
-nans_to_zeros = true
-summary_method = mean
-show_data_range = true
-file_type = bigwig
-
-[vp]
-file = vp_genes.bed
-height = 1
-color = blue
-display = collapsed
-border_color = none
-labels = false
-
-[quantifs]
-file = v4C_CBSCS3840.bed
-overlay_previous = yes
-display = collapsed
-color = orange
-border_color = none
-labels = false
-" > ${ini_file}
-pgt --tracks ${ini_file} --region chr2:74,645,050-75,200,352 -o ${ini_file/.ini/.pdf}
-
-
-# Figure S15A
-ini_file="FigS15A.ini"
+# Extended Data Figure 10A
+ini_file="ExtDFig10A.ini"
 echo "[wt_96h_H3K27me3]
 file = ${pathWithChIP}/wt_96h_H3K27me3_bothrep_Normalized_HCN_96h.bedgraph
 title = wt_96h_HCN
@@ -2322,11 +1883,11 @@ fontsize = 12
 " > ${ini_file}
 pgt --tracks ${ini_file} --region chr2:74,646,423-74,780,095 -o ${ini_file/.ini/.pdf} --width 15
 
-# Figure S15Btop
+# Extended Data Figure 10B
 cat ${pathWithGitHub}/annotations/v4C_vp.bed | grep -v "CBS" | grep -v "d1-d4" | grep -v "d8" > vp_genes_S15B.bed
 cat ${pathWithGitHub}/annotations/v4C_quantified.bed | grep "Hoxd3-4" > v4C_Hoxd34.bed
 
-ini_file="FigS15Btop.ini"
+ini_file="ExtDFig10Btop.ini"
 echo "[Del(CBS1-5)_96h_CTCF]
 file = ${pathWithChIP}/Del(CBS1-5)_96h_CTCF.bigwig
 title = CTCF Del(CBS1-5) 96h
@@ -2357,8 +1918,8 @@ labels = false
 " > ${ini_file}
 pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf}
 
-# Figure S16A
-ini_file="FigS16A.ini"
+# Extended Data Figure 10C
+ini_file="ExtDFig10C.ini"
 echo "" > ${ini_file}
 for time in {48..168..24}; do
     if [ ${time} = "48" ]; then
@@ -2430,12 +1991,12 @@ height = 1.5
 done
 pgt --tracks ${ini_file} --region chr2:73,900,037-75,621,560 -o ${ini_file/.ini/.pdf}
 
-# Figure S16B
+# Extended Data Figure 10D
 genos=('' 'wt' 'Del(CBS1-5)')
 for i in 1 2; do
     geno=${genos[$i]}
     for time in 48 96; do
-        ini_file=FigS16B${i}-${time}h-1.ini
+        ini_file=ExtDFig10D${i}-${time}h-1.ini
         echo "" > ${ini_file}
         if [ -e ${pathWithCHiC}/${geno}_${time}h_CHiC_merge_5kb_Balanced_mm10.cool ]; then
             cool_file=${pathWithCHiC}/${geno}_${time}h_CHiC_merge_5kb_Balanced_mm10.cool
@@ -2458,7 +2019,7 @@ color = white
 line_width = 0.5
 
 [line]
-file = ${pathWithGitHub}/annotations/FigS16B${i}_${time}.bedpe
+file = ${pathWithGitHub}/annotations/ExtDFig10D${i}_${time}.bedpe
 file_type = links
 links_type = loops
 overlay_previous = share-y
@@ -2501,7 +2062,7 @@ file_type = bigwig
 " >> ${ini_file}
         fi
         echo "[vlines]
-file = ${pathWithGitHub}/annotations/FigS16B${i}_${time}.bedpe
+file = ${pathWithGitHub}/annotations/ExtDFig10D${i}_${time}.bedpe
 type = vlines" >> ${ini_file}
         pgt --tracks ${ini_file} --region chr2:74,590,000-74,985,000 -o ${ini_file/.ini/.pdf} --width 10 --dpi 250
     done
@@ -2512,7 +2073,7 @@ genos=('' 'wt' 'Del(CBS1-5)')
 for i in 1 2; do
     geno=${genos[$i]}
     for time in 48 96; do
-        ini_file=FigS16B${i}-${time}h-2.ini
+        ini_file=ExtDFig10D${i}-${time}h-2.ini
         if [ "${geno}" = "Del(CBS1-5)" ]; then
             echo "[Del(CBS1-5)_96h_CTCF]
 file = ${pathWithChIP}/Del(CBS1-5)_96h_CTCF.bigwig
@@ -2565,18 +2126,18 @@ height = 1
 fontsize = 6
 
 [vlines]
-file = ${pathWithGitHub}/annotations/FigS16B${i}_${time}.bedpe
+file = ${pathWithGitHub}/annotations/ExtDFig10D${i}_${time}.bedpe
 type = vlines
 " >> ${ini_file}
         pgt --tracks ${ini_file} --region chr2:74,667,374-74,750,000 -o ${ini_file/.ini/.pdf} --width 10 --dpi 250
     done
 done
 
-# Figure S16Ctop
+# Extended Data Figure 10E
 cat ${pathWithGitHub}/annotations/v4C_vp.bed | grep -v "CBS" | grep -v "d1-d4" | grep -v "d8" > vp_genes_S15B.bed
 cat ${pathWithGitHub}/annotations/v4C_quantified.bed | grep "5p-sub-TAD1" > v4C_5psubTAD1.bed
 
-ini_file="FigS16Ctop.ini"
+ini_file="ExtDFig10Etop.ini"
 echo "[Del(CBS1-5)_96h_CTCF]
 file = ${pathWithChIP}/Del(CBS1-5)_96h_CTCF.bigwig
 title = CTCF Del(CBS1-5) 96h
@@ -2606,3 +2167,444 @@ border_color = none
 labels = false
 " > ${ini_file}
 pgt --tracks ${ini_file} --region chr2:74,625,050-75,180,352 -o ${ini_file/.ini/.pdf}
+
+# Sup Figure 1A
+ini_file="SupFig1A.ini"
+echo "" > ${ini_file}
+for time in {72..168..12}; do
+    if [ -e ${pathWithChIP}/wt_${time}h_PolII_Normalized.bigwig ]; then
+        echo "[wt_${time}h_PolII]
+file = ${pathWithChIP}/wt_${time}h_PolII_Normalized.bigwig
+title = ${time}h_PolII
+height = 1.5
+color = #0394fc
+min_value = 0
+max_value = 200 
+number_of_bins = 2000
+nans_to_zeros = true
+summary_method = mean
+show_data_range = true
+file_type = bigwig
+" >> ${ini_file}
+    fi
+done
+
+echo "[spacer]
+
+[genes]
+file = ${pathWithGitHub}/annotations/Hox_single_transcripts.gtf
+height = 0.5
+title = genes 102 single transcripts
+fontsize = 10
+style = flybase
+prefered_name = gene_name
+display = collapsed
+labels = false
+arrowhead_fraction = 0.017
+
+[labels]
+file = Hox_left.bed
+color = none
+border_color = none
+fontstyle = oblique
+display = collapsed
+height = 1
+fontsize = 16
+" >> ${ini_file}
+
+pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf} --width 25
+
+# Sup Figure 1D
+ini_file="SupFig1D.ini"
+echo "" > ${ini_file}
+for time in {72..144..12}; do
+    if [ -e ${pathWithChIP}/wt_${time}h_pSer2PolII_Normalized.bigwig ]; then
+        echo "[wt_${time}h_pSer2PolII]
+file = ${pathWithChIP}/wt_${time}h_pSer2PolII_Normalized.bigwig
+title = ${time}h_pSer2PolII
+height = 1.5
+color = #1a6985
+min_value = 0
+max_value = 100 
+number_of_bins = 2000
+nans_to_zeros = true
+summary_method = mean
+show_data_range = true
+file_type = bigwig
+" >> ${ini_file}
+    fi
+done
+echo "[spacer]
+
+[genes]
+file = ${pathWithGitHub}/annotations/Hox_single_transcripts.gtf
+height = 0.5
+title = genes 102 single transcripts
+fontsize = 10
+style = flybase
+prefered_name = gene_name
+display = collapsed
+labels = false
+arrowhead_fraction = 0.017
+
+[labels]
+file = Hox_left.bed
+color = none
+border_color = none
+fontstyle = oblique
+display = collapsed
+height = 1
+fontsize = 16
+" >> ${ini_file}
+
+pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf} --width 25
+
+# Sup Figure 2
+ini_file="SupFig2.ini"
+echo "[x-axis]
+where = top
+" > ${ini_file}
+for time in {72..168..12}; do
+    if [ -e ${pathWithChIP}/wt_${time}h_PolII_Normalized.bigwig ]; then
+        echo "[wt_${time}h_PolII]
+file = ${pathWithChIP}/wt_${time}h_PolII_Normalized.bigwig
+title = ${time}h_PolII
+height = 1.5
+color = #0394fc
+min_value = 0
+max_value = 200 
+number_of_bins = 2000
+nans_to_zeros = true
+summary_method = mean
+show_data_range = true
+file_type = bigwig
+" >> ${ini_file}
+    fi
+done
+
+echo "[spacer]
+
+[genes]
+file = ${pathWithGitHub}/annotations/Hox_single_transcripts.gtf
+height = 0.5
+title = genes 102 single transcripts
+fontsize = 10
+style = flybase
+prefered_name = gene_name
+display = collapsed
+labels = false
+arrowhead_fraction = 0.017
+
+[labels]
+file = Hox_left.bed
+color = none
+border_color = none
+fontstyle = oblique
+display = collapsed
+height = 1
+fontsize = 16
+
+[spacer]
+height = 2
+" >> ${ini_file}
+for time in {72..144..12}; do
+    if [ -e ${pathWithChIP}/wt_${time}h_pSer2PolII_Normalized.bigwig ]; then
+        echo "[wt_${time}h_pSer2PolII]
+file = ${pathWithChIP}/wt_${time}h_pSer2PolII_Normalized.bigwig
+title = ${time}h_pSer2PolII
+height = 1.5
+color = #1a6985
+min_value = 0
+max_value = 100 
+number_of_bins = 2000
+nans_to_zeros = true
+summary_method = mean
+show_data_range = true
+file_type = bigwig
+" >> ${ini_file}
+    fi
+done
+echo "[spacer]
+
+[genes]
+file = ${pathWithGitHub}/annotations/Hox_single_transcripts.gtf
+height = 0.5
+title = genes 102 single transcripts
+fontsize = 10
+style = flybase
+prefered_name = gene_name
+display = collapsed
+labels = false
+arrowhead_fraction = 0.017
+
+[labels]
+file = Hox_left.bed
+color = none
+border_color = none
+fontstyle = oblique
+display = collapsed
+height = 1
+fontsize = 16
+" >> ${ini_file}
+
+pgt --tracks ${ini_file} --BED ${pathWithGitHub}/annotations/HoxAB_plot_regions.bed -o ${ini_file/.ini/.pdf} --width 25
+
+# Supplementary Figure 3F
+ini_file="SupFig3F.ini"
+echo "" > ${ini_file}
+for time in {72..120..24}; do
+    if [ -e ${pathWithChIP}/wt_${time}h_CDX2_Normalized.bigwig ]; then
+        echo "[wt_${time}h_CDX2]
+file = ${pathWithChIP}/wt_${time}h_CDX2_Normalized.bigwig
+title = ${time}h_CDX2
+height = 3
+color = #3F4716
+min_value = 0
+max_value = 20
+number_of_bins = 2000
+nans_to_zeros = true
+summary_method = mean
+show_data_range = true
+file_type = bigwig
+" >> ${ini_file}
+    fi
+done
+
+echo "[spacer]
+
+[genes]
+file = ${pathWithGitHub}/annotations/Hox_single_transcripts.gtf
+height = 1
+title = genes 102 single transcripts
+fontsize = 10
+style = flybase
+prefered_name = gene_name
+display = collapsed
+labels = false
+arrowhead_fraction = 0.017
+
+[labels]
+file = Hox_left.bed
+color = none
+border_color = none
+fontstyle = oblique
+display = collapsed
+height = 1
+fontsize = 16
+" >> ${ini_file}
+
+pgt --tracks ${ini_file} --region chr2:74,667,374-74,767,842 -o ${ini_file/.ini/.pdf} --width 30
+
+# Sup Figure 5C
+ini_file="SupFig5C.ini"
+geno="Del(d1-d4)"
+time=96
+echo "[${geno}_${time}h_CHiC]
+file = ${pathWithCHiC}/${geno}_${time}h_CHiC_5kb_Balanced_${geno}.cool
+title = ${geno}_CHiC_5kb_Balanced
+depth = 500000
+show_masked_bins = false
+min_value = 0
+
+[HoxD-CS3840]
+file = ${pathWithGitHub}/annotations/HoxDvsCS3840_Del(d1-d4).bedpe
+file_type = links
+links_type = loops
+overlay_previous = share-y
+line_style = dotted
+color = white
+line_width = 1
+
+[annotations]
+file = ${geno}/${geno}_vSplit_TADs.bed
+height = 1
+display = collapsed
+color = bed_rgb
+border_color = bed_rgb
+labels = false
+
+[labels]
+file = ${geno}/${geno}_vSplit_TADs_label.bed
+overlay_previous = yes
+color = none
+border_color = none
+display = collapsed
+fontsize = 20
+
+
+[spacer]
+height = 0.05
+
+[annotations2]
+file = ${geno}/${geno}_vSplit_subTADs.bed
+height = 0.2
+display = collapsed
+border_color = white
+color = bed_rgb
+labels = false
+
+[genes]
+file = ${geno}/${geno}_vSplit_Hox_single_transcripts.gtf
+overlay_previous = yes
+title = genes 102 single transcripts shifted
+style = flybase
+prefered_name = gene_name
+display = collapsed
+labels = false
+
+[labels]
+file = ${geno}/${geno}_vSplit_subTADs_label.bed
+color = none
+border_color = none
+display = collapsed
+fontsize = 20
+height = 1.5
+
+[CS38-40]
+file = ${geno}/${geno}_vSplit_CS3840.bed
+overlay_previous = yes
+color = bed_rgb
+" > ${ini_file}
+
+# Check coo
+pgt --tracks ${ini_file} --region chr2:74,635,000-75,165,000 -o ${ini_file/.ini/.pdf} --width 20
+
+
+# Sup Figure 5F
+ini_file="SupFig5F.ini"
+geno="Del(sub-TAD1)"
+time=96
+echo "[${geno}_${time}h_CHiC]
+file = ${pathWithCHiC}/${geno}_${time}h_CHiC_5kb_Balanced_${geno}.cool
+title = ${geno}_CHiC_5kb_Balanced
+depth = 500000
+show_masked_bins = false
+min_value = 0
+
+[annotations]
+file = ${geno}/${geno}_vSplit_TADs.bed
+height = 1
+display = collapsed
+color = bed_rgb
+border_color = bed_rgb
+labels = false
+
+[labels]
+file = ${geno}/${geno}_vSplit_TADs_label.bed
+overlay_previous = yes
+color = none
+border_color = none
+display = collapsed
+fontsize = 20
+
+
+[spacer]
+height = 0.05
+
+[annotations2]
+file = ${geno}/${geno}_vSplit_subTADs.bed
+height = 0.2
+display = collapsed
+border_color = white
+color = bed_rgb
+labels = false
+
+[genes]
+file = ${geno}/${geno}_vSplit_Hox_single_transcripts.gtf
+overlay_previous = yes
+title = genes 102 single transcripts shifted
+style = flybase
+prefered_name = gene_name
+display = collapsed
+labels = false
+
+[labels]
+file = ${geno}/${geno}_vSplit_subTADs_label.bed
+color = none
+border_color = none
+display = collapsed
+fontsize = 20
+height = 1.5
+
+[CS38-40]
+file = ${geno}/${geno}_vSplit_CS3840.bed
+overlay_previous = yes
+color = bed_rgb
+" > ${ini_file}
+
+# Check coo
+pgt --tracks ${ini_file} --region chr2:74,635,000-75,165,000 -o ${ini_file/.ini/.pdf} --width 20
+
+
+# Sup Figure 6Atop
+cat ${pathWithGitHub}/annotations/v4C_vp.bed | grep CBS | grep -v "CBS[36]" > vp_CBS_pos.bed
+cat ${pathWithGitHub}/annotations/v4C_quantified.bed | grep "CBS-CS38-40" > v4C_CBSCS3840.bed
+
+ini_file="SupFig6Atop.ini"
+echo "[wt_168h_CTCF]
+file = ${pathWithChIP}/wt_168h_CTCF.bigwig
+title = CTCF
+height = 2
+color = #fc8403
+min_value = 0
+max_value = 100
+number_of_bins = 2000
+nans_to_zeros = true
+summary_method = mean
+show_data_range = true
+file_type = bigwig
+
+[vp]
+file = vp_CBS_pos.bed
+height = 1
+color = blue
+display = collapsed
+border_color = none
+labels = false
+
+[quantifs]
+file = v4C_CBSCS3840.bed
+overlay_previous = yes
+display = collapsed
+color = orange
+border_color = none
+labels = false
+" > ${ini_file}
+pgt --tracks ${ini_file} --region chr2:74,645,050-75,200,352 -o ${ini_file/.ini/.pdf}
+
+# Sup Figure 6Btop
+cat ${pathWithGitHub}/annotations/v4C_vp.bed | grep -v CBS | grep -v "d1-d4" > vp_genes.bed
+cat ${pathWithGitHub}/annotations/v4C_quantified.bed | grep "CBS-CS38-40" > v4C_CBSCS3840.bed
+
+ini_file="SupFig6Btop.ini"
+echo "[wt_168h_CTCF]
+file = ${pathWithChIP}/wt_168h_CTCF.bigwig
+title = CTCF
+height = 2
+color = #fc8403
+min_value = 0
+max_value = 100
+number_of_bins = 2000
+nans_to_zeros = true
+summary_method = mean
+show_data_range = true
+file_type = bigwig
+
+[vp]
+file = vp_genes.bed
+height = 1
+color = blue
+display = collapsed
+border_color = none
+labels = false
+
+[quantifs]
+file = v4C_CBSCS3840.bed
+overlay_previous = yes
+display = collapsed
+color = orange
+border_color = none
+labels = false
+" > ${ini_file}
+pgt --tracks ${ini_file} --region chr2:74,645,050-75,200,352 -o ${ini_file/.ini/.pdf}
+

@@ -48,5 +48,5 @@ while read l; do
     fi
 done < ${pathWithGitHub}/cHi-C/v4C_table.txt
 
-# Plot FigS6 S8 S14 S16
+# Plot ExtDFig4 ExtDFig6 SupFig6 ExtDFig10
 Rscript ${pathWithGitHub}/scripts/plot_v4C_quantif.R $PWD/ ${pathWithGitHub}

@@ -21,20 +21,20 @@ if (!dir.exists(directory.with.plots)) {
 }
 
 figures.type <- list('Fig1D' = 'coo',
-                     'FigS1' = 'time',
-                     'FigS2B' = 'coo',
-                     'FigS4A' = 'coo',
-                     'FigS4B' = 'time',
-                     'FigS5B' = 'time')
-figures.group <- list('FigS1' = list('heatmap' = list("1" = "HoxD",
+                     'ExtDFig1' = 'time',
+                     'SupFig1B' = 'coo',
+                     'ExtDFig2A' = 'coo',
+                     'ExtDFig2B' = 'time',
+                     'ExtDFig3B' = 'time')
+figures.group <- list('ExtDFig1' = list('heatmap' = list("1" = "HoxD",
                                                       "2" = c("C-DOM", "SubTAD2", "SubTAD1","T-DOM")),
                                      'points' = list("3" = rev(c("T6: CS5", "T5: CS85-31", "T4: CS31-32", "T3: CS34", "T2: CS37", "T1: CS39")),
                                                      "4" = rev(c("C4: IslandI", "C3: IslandII-III", "C2: IslandIII", "C1: GT2")))
 ),
-'FigS4B' = list('points' = list("1" = paste0("CBS", c(1, 2, 4, 5)),
+'ExtDFig2B' = list('points' = list("1" = paste0("CBS", c(1, 2, 4, 5)),
                                 "2" = paste0("CBS", c(3, 6:9)))
 ),
-'FigS5B' = list('points' = list("1" = paste0("CD-CBS", 1:5),
+'ExtDFig3B' = list('points' = list("1" = paste0("CD-CBS", 1:5),
                                 "2" = paste0("TD-CBS", 1:9))
 )
 )
@@ -78,7 +78,7 @@ for (fig in names(figures.type)) {
   all.times$after[nrow(all.times)] <- all.times$time.num[nrow(all.times)] + median(all.times.inter) / 2
   input.data <- merge(input.data, all.times)
   
-  if (fig == "FigS5B") {
+  if (fig == "ExtDFig3B") {
     # Normalize to 48h
     input.data <- ddply(input.data, .(chr, start, region), mutate,
                         new.value = value / value[time == "48h"])
@@ -86,7 +86,7 @@ for (fig in names(figures.type)) {
     input.data$value <- input.data$new.value
   }
   if (figures.type[fig] == "coo") {
-    if (fig == "FigS4A") {
+    if (fig == "ExtDFig2A") {
       ggplot(subset(input.data, time != "48h"), aes(x = region, y = time, fill = value)) +
         geom_tile() +
         scale_fill_distiller(paste("Coverage of", protein),
@@ -167,12 +167,12 @@ for (fig in names(figures.type)) {
     for (i in names(figures.group[[fig]][["points"]])) {
       my.regions <- figures.group[[fig]][["points"]][[i]]
       working.df <- subset(input.data, region %in% my.regions)
-      if (fig == "FigS1") {
+      if (fig == "ExtDFig1") {
         working.df <- subset(working.df, time != "48h")
       }
       working.df$region <- factor(working.df$region, levels = my.regions)
       title <- paste("Coverage of", protein)
-      if (fig == "FigS5B"){
+      if (fig == "ExtDFig3B"){
         title <- paste(title, "Normalized to 48h")
       }
       if (length(unique(working.df$region)) <= 6) {
@@ -194,7 +194,7 @@ for (fig in names(figures.type)) {
   }
 }
 
-# Plot the ratios in FigS2C left
+# Plot the ratios in SupFig1C left
 ratios$time <- factor(ratios$time, levels = c("96h", "120h"))
 ggplot(ratios, aes(x = time, y = ratio)) +
   geom_line(aes(group = protein)) +
@@ -207,17 +207,17 @@ ggplot(ratios, aes(x = time, y = ratio)) +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         strip.background = element_rect(fill = NA, colour = NA))
-ggsave(file.path(directory.with.plots, paste0("FigS2Ca.pdf")), height = 3, width = 3)
+ggsave(file.path(directory.with.plots, paste0("SupFig1Ca.pdf")), height = 3, width = 3)
 
-# Plot the barplot of FigS11C
-fig <- "FigS11C"
+# Plot the barplot of ExtDFig8C
+fig <- "ExtDFig8C"
 df <- read.delim(file.path(directory.with.quantifs, paste0(fig, ".txt")))
 # I process the colnames of the data frame:
 colnames(df) <- gsub("^X\\.", "", colnames(df))
 colnames(df) <- gsub("^\\.", "", colnames(df))
 colnames(df) <- gsub("\\.$", "", colnames(df))
 colnames(df) <- gsub("_Normalized.bigwig$", "", colnames(df))
-region.df <- read.delim(file.path(directory.with.quantifs, paste0('regions_S4B.bed')), header = F)[, 1:4]
+region.df <- read.delim(file.path(directory.with.quantifs, paste0('regions_ExtD2B.bed')), header = F)[, 1:4]
 colnames(region.df) <- c("chr", "start", "end", "region")
 region.df$region <- factor(region.df$region, levels = region.df$region)
 df <- merge(df, region.df)

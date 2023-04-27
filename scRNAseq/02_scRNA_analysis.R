@@ -294,7 +294,7 @@ if (average.umap2.endo < 0) {
 
 dir.create(file.path(github.directory, "scRNAseq", "plots"), showWarnings = F, recursive = T)
 # visualize and save plots of cluster identity and time of gastruloid development
-# These plots will be used for Figure S10B
+# These plots will be used for Supplementary Figure 6
 DimPlot(combined.seurat, group.by = "Fate",
         cols = levels(combined.seurat$Fate.Color),
         pt.size = 0.5, shuffle = T)
@@ -312,7 +312,7 @@ ggsave(filename = file.path(github.directory, "scRNAseq", "plots", "Time.pdf"), 
 FeaturePlot(combined.seurat, features = c("Hoxd4", "Hoxd8", "Cdx1",
                                           "Hoxd9", "Hoxd10", "Cdx2"),
             ncol = 3, order = T, pt.size = 0.5)
-ggsave(filename = file.path(github.directory, "scRNAseq", "plots", "FigS10C.pdf"), width = 36, height = 16)
+ggsave(filename = file.path(github.directory, "scRNAseq", "plots", "SupFig3C.pdf"), width = 36, height = 16)
 
 # Evaluate the proportion of cells with Cdx1 or Cdx2:
 prop.table(table(GetAssayData(object = combined.seurat, assay = "RNA", slot = "counts")["Cdx2",] == 0 &
