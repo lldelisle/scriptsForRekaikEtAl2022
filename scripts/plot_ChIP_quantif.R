@@ -236,9 +236,9 @@ simple.fun <- function(v){return(list(ymin = mean(v) - sd(v),
 ggplot(all.values, aes(x = genotype, y = norm.value)) +
   stat_summary(aes(fill = genotype), geom = "bar", fun = mean,
                color = "black", width = 0.6, linewidth = 0.1) +
-  stat_summary(fun.data = simple.fun, aes(group = genotype), 
-               geom = "errorbar", color = "black", width = 0.3,
-               position = position_dodge(.55), linewidth = 0.1) +
+  # stat_summary(fun.data = simple.fun, aes(group = genotype), 
+  #              geom = "errorbar", color = "black", width = 0.3,
+  #              position = position_dodge(.55), linewidth = 0.1) +
   geom_dotplot(binaxis = "y", stackdir = "center", 
                fill = NA, binwidth = 0.1, color = "grey") +
   facet_grid(. ~ region, switch = "both") +

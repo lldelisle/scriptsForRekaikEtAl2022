@@ -154,11 +154,12 @@ samplesplan$time <- sapply(strsplit(samplesplan$sample, "_"), "[[", 2)
 input.data <- merge(FPKM.values, samplesplan)
 input.data$time <- factor(input.data$time, levels = paste0(seq(72, 168, 12), "h"))
 ggplot(input.data, aes(time, FPKM, fill = gene_short_name))  + 
-  stat_summary(fun.data = simple.fun, aes(group = gene_short_name), 
-               geom = "errorbar", color = "black", width =0.3,
-               position = position_dodge(.55)) +
+  # stat_summary(fun.data = simple.fun, aes(group = gene_short_name), 
+  #              geom = "errorbar", color = "black", width =0.3,
+  #              position = position_dodge(.55)) +
   stat_summary(fun = mean, geom = "bar", color = "black",
                width = 0.6, position = position_dodge2(padding = 0.3)) +
+  geom_point(position = position_dodge(.55), pch = 1) +
   theme_classic() +
   xlab("Time (h) AA") +
   scale_y_continuous(expand = c(0, 0), limits = c(0, 500)) +
@@ -329,8 +330,8 @@ for (fig.name in names(figures)) {
   g <- ggplot(working.df, aes(x = gene, y = ratio_wt, color = gene, shape = gene)) +
     geom_jitter(width = 0.1) +
     stat_summary(fun = mean, geom = "bar", fill = NA, width = 0.6) + 
-    stat_summary(fun.data = simple.fun, 
-                 geom = "errorbar", width = 0.3) +
+    # stat_summary(fun.data = simple.fun, 
+    #              geom = "errorbar", width = 0.3) +
     geom_hline(yintercept = 1, lty = 2) +
     geom_text(data = temp.df, aes(label = label), color = "black") +
     facet_grid(time ~ ., scale="free_y") +
@@ -393,8 +394,8 @@ for (fig.name in names(figures)) {
   g <- ggplot(working.df, aes(x = gene, y = ratio_wt, color = gene, shape = gene)) +
     geom_jitter(width = 0.1) +
     stat_summary(fun = mean, geom = "bar", fill = NA, width = 0.6) + 
-    stat_summary(fun.data = simple.fun, 
-                 geom = "errorbar", width = 0.3) +
+    # stat_summary(fun.data = simple.fun, 
+    #              geom = "errorbar", width = 0.3) +
     geom_hline(yintercept = 1, lty = 2) +
     geom_text(data = temp.df, aes(label = label), color = "black") +
     facet_grid(time ~ ., scale="free_y") +
@@ -472,8 +473,8 @@ for (fig.name in names(figures)) {
   g <- ggplot(working.df, aes(x = gene, y = ratio_wt, color = gene, shape = gene)) +
     geom_jitter(width = 0.1) +
     stat_summary(fun = mean, geom = "bar", fill = NA, width = 0.6) + 
-    stat_summary(fun.data = simple.fun, 
-                 geom = "errorbar", width = 0.3) +
+    # stat_summary(fun.data = simple.fun, 
+    #              geom = "errorbar", width = 0.3) +
     geom_hline(yintercept = 1, lty = 2) +
     geom_text(data = temp.df, aes(label = label), color = "black") +
     facet_grid(time ~ ., scale="free_y") +
@@ -535,8 +536,8 @@ for (fig.name in names(figures)) {
   g <- ggplot(working.df, aes(x = gene, y = ratio_wt, color = gene, shape = gene)) +
     geom_jitter(width = 0.1) +
     stat_summary(fun = mean, geom = "bar", fill = NA, width = 0.6) + 
-    stat_summary(fun.data = simple.fun, 
-                 geom = "errorbar", width = 0.3) +
+    # stat_summary(fun.data = simple.fun, 
+    #              geom = "errorbar", width = 0.3) +
     geom_hline(yintercept = 1, lty = 2) +
     geom_text(data = temp.df, aes(label = label), color = "black") +
     facet_grid(time ~ ., scale="free_y") +
@@ -595,8 +596,8 @@ for (fig.name in names(figures)) {
   g <- ggplot(working.df, aes(x = gene, y = ratio_wt, color = gene, shape = gene)) +
     geom_jitter(width = 0.1) +
     stat_summary(fun = mean, geom = "bar", fill = NA, width = 0.6) + 
-    stat_summary(fun.data = simple.fun, 
-                 geom = "errorbar", width = 0.3) +
+    # stat_summary(fun.data = simple.fun, 
+    #              geom = "errorbar", width = 0.3) +
     geom_hline(yintercept = 1, lty = 2) +
     geom_text(data = temp.df, aes(label = label), color = "black") +
     facet_grid(time ~ ., scale="free_y") +
@@ -647,8 +648,8 @@ for (fig.name in names(figures)) {
   g <- ggplot(working.df, aes(x = gene, y = ratio_wt, color = gene, shape = gene)) +
     geom_jitter(width = 0.1) +
     stat_summary(fun = mean, geom = "bar", fill = NA, width = 0.6) + 
-    stat_summary(fun.data = simple.fun, 
-                 geom = "errorbar", width = 0.3) +
+    # stat_summary(fun.data = simple.fun, 
+    #              geom = "errorbar", width = 0.3) +
     geom_hline(yintercept = 1, lty = 2) +
     geom_text(data = temp.df, aes(label = label), color = "black") +
     facet_grid(time ~ ., scale="free_y") +
