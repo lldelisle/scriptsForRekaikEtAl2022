@@ -1758,7 +1758,73 @@ fontsize = 12
 done
 
 # Extended Data Figure 8C
-#TODO
+ini_file="ExtDFig8Ctop.ini"
+mutant="Del(CBS1)"
+echo "[CTCF]
+arrowhead_fraction = 0.006
+display = collapsed
+file = ${pathWithGitHub}/annotations/CTCF.bed
+title = CTCF-binding sites
+height = 0.3
+file_type = bed
+labels = false
+color = bed_rgb
+line_width = 0.05
+
+[wt_96h_RAD21]
+file = ${pathWithChIP}/wt_96h_RAD21_rep2_Normalized.bigwig
+title = RAD21 wt
+height = 2
+color = #d167a8
+min_value = 0
+max_value = 380
+number_of_bins = 500
+nans_to_zeros = true
+summary_method = max
+show_data_range = true
+file_type = bigwig
+
+[spacer]
+height = 0.1
+
+[${mutant}_96h_RAD21]
+file = ${pathWithChIP}/${mutant}_96h_RAD21_rep1_Normalized.bigwig
+title = RAD21 ${mutant}
+height = 2
+color = #97226c
+min_value = 0
+max_value = 380
+number_of_bins = 500
+nans_to_zeros = true
+summary_method = max
+show_data_range = true
+file_type = bigwig
+
+[spacer]
+height = 1
+
+[genes]
+file = ${pathWithGitHub}/annotations/Hox_single_transcripts.gtf
+height = 0.5
+title = genes 102 single transcripts
+fontsize = 10
+style = flybase
+prefered_name = gene_name
+display = collapsed
+labels = false
+arrowhead_fraction = 0.017
+
+[labels]
+file = Hox_left.bed
+color = none
+border_color = none
+fontstyle = oblique
+display = collapsed
+height = 1
+fontsize = 12
+" > ${ini_file}
+
+pgt --tracks ${ini_file} --region chr2:74,636,423-74,780,095 -o ${ini_file/.ini/.pdf} --width 15
 
 # Extended Data Figure 9A
 ini_file="ExtDFig9A.ini"
@@ -2532,8 +2598,7 @@ overlay_previous = yes
 color = bed_rgb
 " > ${ini_file}
 
-# Check coo
-pgt --tracks ${ini_file} --region chr2:74,635,000-75,165,000 -o ${ini_file/.ini/.pdf} --width 20
+pgt --tracks ${ini_file} --region chr2:74,635,000-75,240,000 -o ${ini_file/.ini/.pdf} --width 20
 
 
 # Sup Figure 6Atop
